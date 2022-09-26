@@ -7,13 +7,13 @@ public class player : MonoBehaviour
     Rigidbody2D rb;
     public int speed;
     bool touchingPlatform;
-    public float angvel;
+    public float angvel = 260;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         speed = 3;
-        angvel = 230;
+        
     }
 
     // Update is called once per frame
@@ -35,12 +35,12 @@ public class player : MonoBehaviour
         if (Input.GetKey("right"))
         {
             //transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
-            rb.velocity = new Vector2(2, 0);
+            rb.velocity = new Vector2(2, rb.velocity.y);
         }
         if (Input.GetKey("left"))
         {
             //transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y);
-            rb.velocity = new Vector2(-2, 0);
+            rb.velocity = new Vector2(-2, rb.velocity.y);
         }
         if (Input.GetKeyDown("l") && touchingPlatform)
         {
