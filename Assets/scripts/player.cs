@@ -10,6 +10,8 @@ public class player : MonoBehaviour
     public float angvel = 260;
     private Animator anim;
     bool isJumping;
+    HelperScript helper;
+    public GameObject bird;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +20,9 @@ public class player : MonoBehaviour
         anim = GetComponent<Animator>();
 
         isJumping = false;
+        helper = gameObject.AddComponent<HelperScript>();
 
-        
+
     }
 
     // Update is called once per frame
@@ -40,55 +43,61 @@ public class player : MonoBehaviour
         if( (isJumping == true)   )
         {
             anim.SetBool("jump", true);
-            if ((touchingPlatform == true) && rb.velocity.y < 0)
+            if ((touchingPlatform == true) && rb.velocity.y < 1)
             {
                 isJumping = false;
             }
         }
         
 
-        if (Input.GetKeyDown("down") && touchingPlatform)
+        //if (Input.GetKeyDown("down") && touchingPlatform)
         {
             //transform.position = new Vector2(transform.position.x, transform.position.y - (speed * Time.deltaTime));
-           rb.velocity = new Vector2(0, 20);
+          // rb.velocity = new Vector2(0, 20);
         }
         if (Input.GetKey("right"))
         {
             //transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
             rb.velocity = new Vector2(2, rb.velocity.y);
             anim.SetBool("walk", true);
+            helper.FlipObject(false);
         }
         if (Input.GetKey("left"))
         {
             //transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y);
             rb.velocity = new Vector2(-2, rb.velocity.y);
             anim.SetBool("walk", true);
+            helper.FlipObject(true);
         }
-        if (Input.GetKeyDown("l") && touchingPlatform)
-        {
-            rb.velocity = new Vector2(8, 8);
-            rb.angularVelocity = -angvel;
-        }
-        if (Input.GetKeyDown("k") && touchingPlatform)
-        {
-            rb.velocity = new Vector2(-8, 8);
-            rb.angularVelocity = angvel;
-        }
-        if (Input.GetKey("a"))
-        {
-            rb.angularVelocity = 100;
-        }
-        if (Input.GetKey("s"))
-        {
-            rb.angularVelocity = -100;
-        }
+       
+        
         if (Input.GetKey("x"))
         {
             rb.velocity = new Vector2(1, 0);
             anim.SetBool("attack", true);
         }
-
+        if (Input.GetKey("space"))
+        { 
+      
+            helper.FlipObject(true);    
+        }
         
+        int moveDirection = 1;
+        if (Input.GetKeyDown("b"))
+        {
+            GameObject clone;
+            clone = Instantiate(bird, transform.position, transform.rotation);
+
+            Rigidbody2D rb = clone.GetComponent<Rigidbody2D>();
+
+            rb.velocity = new Vector3(15 * moveDirection, 0, 0);
+
+            rb.transform.position = new Vector3(transform.position.x + 1, transform.position.y + 1, transform.position.z);
+            
+           
+        }
+
+
     }
 
     void OnCollisionStay2D(Collision2D collision)
