@@ -32,6 +32,8 @@ public class player : MonoBehaviour
         anim.SetBool("jump", false);
         anim.SetBool("attack", false);
 
+        touchingPlatform = helper.CheckForGround();
+
         if (Input.GetKeyDown("up") && touchingPlatform)
         {
             //transform.position = new Vector2(transform.position.x, transform.position.y + (speed * Time.deltaTime));
@@ -93,9 +95,8 @@ public class player : MonoBehaviour
             rb.velocity = new Vector3(15 * moveDirection, 0, 0);
 
             rb.transform.position = new Vector3(transform.position.x + 1, transform.position.y + 1, transform.position.z);
-            
-           
         }
+
 
 
     }
@@ -106,7 +107,7 @@ public class player : MonoBehaviour
 
         if (collision.gameObject.tag == "platform" )
         {
-            touchingPlatform = true;
+            //touchingPlatform = true;
         }
     }
 
@@ -115,7 +116,7 @@ public class player : MonoBehaviour
 
         if (collision.gameObject.tag == "platform")
         {
-            touchingPlatform = false;
+            //touchingPlatform = false;
         }
     }
 
